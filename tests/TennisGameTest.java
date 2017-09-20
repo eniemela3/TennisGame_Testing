@@ -63,5 +63,108 @@ public class TennisGameTest {
 		//Act
 		// This statement should cause an exception
 		game.player1Scored();			
-	}		
+	}
+	
+	@Test
+	public void player1GetsAdvantage() throws TennisGameException {
+		TennisGame game = new TennisGame();
+		game.player1Scored();
+		game.player1Scored();
+		game.player1Scored();
+		
+		game.player2Scored();
+		game.player2Scored();
+		game.player2Scored();
+		
+		game.player1Scored();
+		
+		String score = game.getScore();
+		assertEquals("Advantage incorrect", "player1 has advantage", score);
+	}
+	
+	@Test
+	public void player1GetsAdvantageAndWins() throws TennisGameException {
+		TennisGame game = new TennisGame();
+		game.player1Scored();
+		game.player1Scored();
+		game.player1Scored();
+		
+		game.player2Scored();
+		game.player2Scored();
+		game.player2Scored();
+		
+		game.player1Scored();
+		game.player1Scored();
+		
+		String score = game.getScore();
+		assertEquals("Advantage incorrect", "player1 wins", score);
+	}
+	
+	@Test
+	public void _15_0() throws TennisGameException {
+		// this detected a bug; points were printed in the wrong order
+		TennisGame game = new TennisGame();
+		game.player1Scored();
+		String score = game.getScore();
+		assertEquals("Player 1 scores 15 incorrect", "15 - love", score);
+	}
+	
+	@Test
+	public void _15_15() throws TennisGameException {
+		TennisGame game = new TennisGame();
+		game.player1Scored();
+		game.player2Scored();
+		String score = game.getScore();
+		assertEquals("Player 1 & 2 score 15 incorrect", "15 - 15", score);
+	}
+	
+	@Test
+	public void _15_30() throws TennisGameException {
+		TennisGame game = new TennisGame();
+		game.player1Scored();
+		game.player2Scored();
+		game.player2Scored();
+		String score = game.getScore();
+		assertEquals("Points granted incorrectly", "15 - 30", score);
+	}
+	
+	@Test
+	public void _15_40() throws TennisGameException {
+		TennisGame game = new TennisGame();
+		game.player1Scored();
+		game.player2Scored();
+		game.player2Scored();
+		game.player2Scored();
+		String score = game.getScore();
+		assertEquals("Points granted incorrectly", "15 - 40", score);
+	}
+	
+	@Test
+	public void _15_victory() throws TennisGameException {
+		TennisGame game = new TennisGame();
+		game.player1Scored();
+		game.player2Scored();
+		game.player2Scored();
+		game.player2Scored();
+		game.player2Scored();
+		String score = game.getScore();
+		assertEquals("Player victory incorrect", "player2 wins", score);
+	}
+	
+	@Test
+	public void _adv_victory() throws TennisGameException {
+		// Revealed a bug: player 2 does not get advantage
+		TennisGame game = new TennisGame();
+		game.player1Scored();
+		game.player1Scored();
+		game.player1Scored();
+		game.player2Scored();
+		game.player2Scored();
+		game.player2Scored();
+		game.player2Scored();
+
+		String score = game.getScore();
+		assertEquals("Player victory incorrect after advantages", "player2 has advantage", score);
+	}
+	
 }
